@@ -30,7 +30,6 @@ export default class extends BaseSchema {
       table.string('role').nullable()
  
       table.string('remember_me_token').nullable()
-
       /**
        * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL
        */
