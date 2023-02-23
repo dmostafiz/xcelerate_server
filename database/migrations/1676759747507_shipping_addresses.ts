@@ -19,6 +19,7 @@ export default class extends BaseSchema {
       table.string('state', 50).nullable()
       table.string('city', 50).nullable()
       table.string('zip_code', 50).nullable()
+      table.boolean('is_default').nullable().defaultTo(false)
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */

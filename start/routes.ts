@@ -8,5 +8,14 @@ Route.get('/', async () => {
 
 Route.get('/users', 'UsersController.getUsers')
 
+Route.group(() => {
+  Route.resource('product', 'ProductsController').apiOnly()
+  Route.put('product/:id/status', 'ProductsController.updateProductStatus')
 
+}).middleware('admin')
+
+
+Route.group(() => {
+  Route.get('/products', 'ShopsController.index')
+}).prefix('/shop')
 
