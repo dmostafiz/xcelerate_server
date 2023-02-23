@@ -24,14 +24,14 @@ export default class extends BaseSchema {
         .inTable('users')
         .onDelete('CASCADE')
 
-      table.boolean('status').defaultTo(true)
-      table.boolean('is_deleted').defaultTo(false)
+      // table.boolean('status').defaultTo(true)
+      // table.boolean('is_deleted').defaultTo(false)
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
       */
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
-      table.timestamp('deleted_at', { useTz: true }).nullable()
+      // table.timestamp('deleted_at', { useTz: true }).nullable()
     })
   }
 
