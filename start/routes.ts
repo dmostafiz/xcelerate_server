@@ -19,3 +19,7 @@ Route.group(() => {
   Route.get('/products', 'ShopsController.index')
 }).prefix('/shop')
 
+Route.group(() => {
+  Route.get('/validate/:username', 'SponsorsController.validate')
+}).prefix('/sponsor')
+
