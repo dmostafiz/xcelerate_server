@@ -16,7 +16,7 @@ export default class CommissionsController {
 
             const matrixCommissions = this.matrixLevels.map((level, i) => {
                 return {
-                    level: `Level ${i + 1}`,
+                    level: `Level ${this.matrixLevels.length - i}`,
                     percentage: level,
                     commission: ((salePrice * level) / 100) * subscriptions,
                     match: (this.calculateMatch(
@@ -31,7 +31,7 @@ export default class CommissionsController {
                     ) * subscriptions)
                     // ((salePrice * level) / 100)
                 }
-            })
+            }).reverse()
 
 
 
