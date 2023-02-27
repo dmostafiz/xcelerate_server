@@ -18,7 +18,7 @@ export default class CommissionsController {
                 return {
                     level: `Level ${i + 1}`,
                     percentage: level,
-                    commission: ((salePrice * level) / 100),
+                    commission: ((salePrice * level) / 100) * subscriptions,
                     matchMatchCommission: (((salePrice * level) / 100) + this.calculateMatch(
                         ((salePrice * level) / 100),
                         i,
