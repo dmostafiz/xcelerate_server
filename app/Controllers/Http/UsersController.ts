@@ -4,7 +4,10 @@ import User from "App/Models/User";
 
 export default class UsersController {
 
-    public async getUsers(): Promise<User[]> {
-        return await User.all();
+    public async getUsers(): Promise<Object> {
+        const users = await User.query()
+            .where('user_type', 'user')
+
+        return { ok: true, users }
     }
 }

@@ -6,7 +6,7 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-Route.get('/users', 'UsersController.getUsers')
+// Route.get('/users', 'UsersController.getUsers')
 
 Route.group(() => {
   Route.resource('product', 'ProductsController').apiOnly()
@@ -23,3 +23,10 @@ Route.group(() => {
   Route.get('/validate/:username', 'SponsorsController.validate')
 }).prefix('/sponsor')
 
+Route.group(() => {
+  Route.get('/', 'UsersController.getUsers')
+}).prefix('/users')
+
+Route.group(() => {
+  Route.post('/calculate', 'CommissionsController.calculate')
+}).prefix('/commission')
