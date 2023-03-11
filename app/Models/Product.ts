@@ -37,6 +37,9 @@ export default class Product extends compose(BaseModel, SoftDeletes) {
   public price: number 
 
   @column()
+  public member_price: number 
+  
+  @column()
   public cv: number 
   
   @column()

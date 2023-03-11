@@ -1,7 +1,7 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'shipping_addresses'
+  protected tableName = 'subscription_payments'
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
@@ -9,16 +9,27 @@ export default class extends BaseSchema {
 
       table.integer('user_id')
         .unsigned()
+        .nullable()
         .references('id')
         .inTable('users')
         .onDelete('CASCADE')
+        .onUpdate('CASCADE')
 
-      table.string('street_one', 255).nullable()
-      table.string('street_two', 255).nullable()
-      table.string('country', 50).nullable()
-      table.string('state', 50).nullable()
-      table.string('city', 50).nullable()
-      table.string('zip_code', 50).nullable()
+      table.integer('subscription_id')
+        .unsigned()
+        .nullable()
+        .references('id')
+        .inTable('subscriptions')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE')
+
+      // pending / completed / cancelled
+      table.string('status').nullable().defaultTo('pending')
+
+      table.string('note').nullable()
+
+      table.float('amount').defaultTo(0.00)
+
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */

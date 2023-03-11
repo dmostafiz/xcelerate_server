@@ -28,5 +28,54 @@ Route.group(() => {
 }).prefix('/users')
 
 Route.group(() => {
+  Route.get('/retail', 'SponsorsController.retailSponsors')
+  Route.get('/member', 'SponsorsController.memberSponsors')
+
+}).prefix('/sponsors').middleware('auth')
+
+Route.group(() => {
   Route.post('/calculate', 'CommissionsController.calculate')
 }).prefix('/commission')
+
+
+Route.group(() => {
+  Route.post('/create', 'SubscriptionsController.createSubscription')
+  Route.post('/cancel', 'SubscriptionsController.cancelSubscription')
+
+}).prefix('/subscription').middleware('auth')
+
+Route.group(() => {
+  Route.post('/webhook', 'StripeController.webhook')
+}).prefix('/stripe')
+
+Route.group(() => {
+  Route.post('/subscribeAffiliateMembership', 'SubscriptionsController.subscribeAffiliateMembership')
+  Route.post('/subscribeOnlyMembership', 'SubscriptionsController.subscribeOnlyMembership')
+  Route.post('/cancelAffiliateMember', 'SubscriptionsController.cancelAffiliateMember')
+  Route.post('/cancelOnlyMember', 'SubscriptionsController.cancelOnlyMember')
+
+  Route.get('/customer', 'SubscriptionsController.customer')
+
+}).prefix('/subscription').middleware('auth')
+
+Route.group(() => {
+  Route.get('/default', 'AddressesController.defaultAddress')
+  Route.get('/all', 'AddressesController.myAddresses')
+  Route.post('/create', 'AddressesController.createAddress')
+  Route.post('/verify', 'AddressesController.verifyAddress')
+  Route.post('/default', 'AddressesController.updateDefault')
+  Route.post('/remove', 'AddressesController.removeAddress')
+
+}).prefix('/address').middleware('auth')
+
+
+Route.group(() => {
+  Route.post('/rate', 'ShippingController.rate')
+
+  
+}).prefix('/shipping').middleware('auth')
+
+
+
+
+

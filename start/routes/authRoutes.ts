@@ -10,4 +10,9 @@ Route.group(() => {
     
     Route.post('/logout', 'AuthController.logout')
 
+    Route.post('/check_username_exists', 'AuthController.checkUsernameExists')
+    Route.post('/check_email_exists', 'AuthController.checkEmailExists')
+    Route.post('/check_phone_exists', 'AuthController.checkPhoneExists')
+
+
 }).prefix('/auth')

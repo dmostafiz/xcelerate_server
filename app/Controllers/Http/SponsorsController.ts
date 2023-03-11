@@ -11,10 +11,10 @@ export default class SponsorsController {
         .where('username', request.params().username)
         .first()
 
-        if(!user) return {ok:false, msg: 'Invalid sponsor username'}
-        if(user.username == auth?.user?.username) return {ok:false, msg: 'You can\'t sponsor yourself'}
+      if (!user) return { ok: false, msg: 'Invalid sponsor username' }
+      if (user.username == auth?.user?.username) return { ok: false, msg: 'You can\'t sponsor yourself' }
 
-        return {ok:true, user}
+      return { ok: true, user }
 
     } catch (error) {
       logMe('try catch', error)
@@ -23,9 +23,31 @@ export default class SponsorsController {
 
   }
 
-  public async create({ }: HttpContextContract) { }
+  public async retailSponsors({ auth }: HttpContextContract) {
 
-  public async store({ }: HttpContextContract) { }
+    const authUserId = auth.user!.id
+
+    const users = await User.query()
+      .where('ref_by', authUserId)
+      .where('is_member', false)
+
+    logMe('retailSponsors', users)
+
+    return { ok: true, users }
+
+  }
+
+  public async memberSponsors({ auth }: HttpContextContract) {
+    const authUserId = auth.user!.id
+
+    const users = await User.query()
+      .where('ref_by', authUserId)
+      .where('is_member', true)
+
+    logMe('memberSponsors', users)
+
+    return { ok: true, users }
+  }
 
   public async show({ }: HttpContextContract) { }
 
