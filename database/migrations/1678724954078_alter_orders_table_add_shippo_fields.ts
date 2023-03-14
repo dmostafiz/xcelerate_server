@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.boolean('is_first').defaultTo(false).after('status')
 
       // recurring | regular
-      table.string('order_type').nullable().defaultTo('regular').after('is_fast')
+      table.string('order_type').nullable().defaultTo('regular').after('is_first')
 
       // shippo fileds
       table.string('shippo_order_id').nullable().after('order_type')
