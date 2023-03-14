@@ -3,6 +3,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { logMe } from 'App/Helpers'
 import Subscription from 'App/Models/Subscription'
 import User from 'App/Models/User'
+import matrix from 'App/Modules/matrix'
 import stripe from 'App/Setup/stripe'
 import Stripe from 'stripe'
 
@@ -117,6 +118,8 @@ export default class SubscriptionsController {
             const invoice2 = subscription40.latest_invoice as Stripe.Invoice;
             const intent2 = invoice2.payment_intent as Stripe.PaymentIntent
 
+            // Place subscriber to matrix
+            await matrix.placeIntoMatrix(user)
 
             return {
                 ok: true,

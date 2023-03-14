@@ -7,10 +7,27 @@ import { SoftDeletes } from '@ioc:Adonis/Addons/LucidSoftDeletes'
 import Order from './Order';
 import Subscription from './Subscription';
 import CommissionAmount from './CommissionAmount';
+import Matrix from './Matrix';
+import MatrixPair from './MatrixPair';
 
 export default class User extends compose(BaseModel, SoftDeletes) {
   @column({ isPrimary: true })
   public id: number
+
+  @column()
+  public matrix_id: number
+  
+  @belongsTo(() => Matrix, {
+    localKey: 'id',
+    foreignKey: 'matrix_id',
+  })
+  public matrix: BelongsTo<typeof Matrix>
+
+  @hasMany(() => MatrixPair, {
+    foreignKey: 'user_id',
+    localKey: 'id',
+  })
+  public pairs: HasMany<typeof MatrixPair>
 
   @column()
   public ref_by: number

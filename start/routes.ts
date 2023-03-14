@@ -99,6 +99,12 @@ Route.group(() => {
   
 }).prefix('/order').middleware('auth')
 
+Route.group(() => {
+  Route.get('/matrix/:uid?', 'UsersController.getMatrixTree')
+  Route.get('/sponsor/:uid?', 'UsersController.getSponsorTree')
+
+}).prefix('/tree').middleware('auth')
+
 Route.get('/order/success', 'OrderController.success')
 
 
