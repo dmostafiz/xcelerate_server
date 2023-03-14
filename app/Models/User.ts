@@ -4,6 +4,9 @@ import { column, beforeSave, BaseModel, hasMany, HasMany, computed, belongsTo, B
 import ShippingAddress from './ShippingAddress'
 import { compose } from '@ioc:Adonis/Core/Helpers'
 import { SoftDeletes } from '@ioc:Adonis/Addons/LucidSoftDeletes'
+import Order from './Order';
+import Subscription from './Subscription';
+import CommissionAmount from './CommissionAmount';
 
 export default class User extends compose(BaseModel, SoftDeletes) {
   @column({ isPrimary: true })
@@ -77,7 +80,6 @@ export default class User extends compose(BaseModel, SoftDeletes) {
     foreignKey: 'user_id',
     localKey: 'id'
   })
-
   public shippings: HasMany<typeof ShippingAddress>
 
   @column()
@@ -92,6 +94,26 @@ export default class User extends compose(BaseModel, SoftDeletes) {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
+  @column.dateTime({ columnName: 'deleted_at' })
+  public deleted_at: DateTime | null
+
+  @hasMany(() => Subscription, {
+    foreignKey: 'user_id',
+    localKey: 'id',
+  })
+  public subscriptions: HasMany<typeof Subscription>
+
+  @hasMany(() => Order, {
+    foreignKey: 'user_id',
+    localKey: 'id'
+  })
+  public orders: HasMany<typeof Order>
+
+  @hasMany(() => CommissionAmount, {
+    foreignKey: 'user_id',
+    localKey: 'id'
+  })
+  public commission_given: HasMany<typeof CommissionAmount>
 
   @computed()
   public get full_name() {

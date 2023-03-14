@@ -9,10 +9,25 @@ Route.get('/', async () => {
 // Route.get('/users', 'UsersController.getUsers')
 
 Route.group(() => {
-  Route.resource('product', 'ProductsController').apiOnly()
-  Route.put('product/:id/status', 'ProductsController.updateProductStatus')
 
+  Route.resource('product', 'ProductsController')
+  .apiOnly()
+  .middleware({
+    store: ['auth', 'admin'],
+    update: ['auth', 'admin'],
+  })
+
+  Route.put('/product/:id/status', 'ProductsController.updateProductStatus')
+  
 }).middleware('admin')
+
+Route.group(() => {
+
+  Route.get('/orders', 'OrderController.getAllOrders')
+
+}).middleware('admin').prefix('admin')
+
+
 
 
 Route.group(() => {
@@ -25,6 +40,7 @@ Route.group(() => {
 
 Route.group(() => {
   Route.get('/', 'UsersController.getUsers')
+  Route.get('/retail', 'UsersController.getRetailUsers')
 }).prefix('/users')
 
 Route.group(() => {
@@ -71,9 +87,20 @@ Route.group(() => {
 
 Route.group(() => {
   Route.post('/rate', 'ShippingController.rate')
-
+  Route.post('/webhooks', 'ShippingController.webhooks')
   
 }).prefix('/shipping').middleware('auth')
+
+
+Route.group(() => {
+  Route.post('/place', 'OrderController.placeOrder')
+  Route.get('/all', 'OrderController.getUserOrders')
+  Route.get('/details/:id', 'OrderController.getOrderDetails')
+  
+}).prefix('/order').middleware('auth')
+
+Route.get('/order/success', 'OrderController.success')
+
 
 
 

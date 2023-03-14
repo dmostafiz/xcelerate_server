@@ -1,10 +1,11 @@
 import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
-import { compose } from '@ioc:Adonis/Core/Helpers';
 import { SoftDeletes } from '@ioc:Adonis/Addons/LucidSoftDeletes';
-import User from './User';
+import { compose } from '@ioc:Adonis/Core/Helpers';
+import Order from './Order';
+import Product from './Product';
 
-export default class Subscription extends compose(BaseModel, SoftDeletes) {
+export default class OrderItem extends compose(BaseModel, SoftDeletes) {
   @column({ isPrimary: true })
   public id: number
 
@@ -12,19 +13,16 @@ export default class Subscription extends compose(BaseModel, SoftDeletes) {
   public user_id: number
 
   @column()
-  public stripe_sub_id: string
+  public order_id: number
 
   @column()
-  public amount: number
+  public product_id: number
 
   @column()
-  public type: string
+  public unit_price: number
 
   @column()
-  public member_type: string
-
-  @column()
-  public status: string
+  public quantity: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -35,10 +33,17 @@ export default class Subscription extends compose(BaseModel, SoftDeletes) {
   @column.dateTime({ columnName: 'deleted_at' })
   public deleted_at: DateTime | null
 
-  @belongsTo(() => User, {
-    foreignKey: 'id',
-    localKey: 'user_id',
+  @belongsTo(() => Order, {
+    localKey: 'order_id',
+    foreignKey: 'id'
   })
-  public user: BelongsTo<typeof User>
+  public order: BelongsTo<typeof Order>
+
+  @belongsTo(() => Product, {
+    localKey: 'id',
+    foreignKey: 'product_id'
+  })
+  
+  public product: BelongsTo<typeof Product>
 
 }

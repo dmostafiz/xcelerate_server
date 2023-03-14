@@ -48,5 +48,5 @@ export default class ShippingAddress extends compose(BaseModel, SoftDeletes)  {
   public updatedAt: DateTime
 
   @column.dateTime({ columnName: 'deleted_at' })
-  public deleted_at?: DateTime | null
+  public deleted_at: DateTime | null
 }

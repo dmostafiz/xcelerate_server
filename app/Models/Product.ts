@@ -60,4 +60,7 @@ export default class Product extends compose(BaseModel, SoftDeletes) {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @column.dateTime({ columnName: 'deleted_at' })
+  public deleted_at: DateTime | null
 }

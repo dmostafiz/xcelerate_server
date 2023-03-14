@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { logMe } from 'App/Helpers'
+import Order from 'App/Models/Order'
 
 import shipment from 'App/Modules/shipment'
 
@@ -36,7 +37,7 @@ export default class ShippingController {
 
       var rate = await shipment.getRate(address, parcel)
 
-      if (rate == undefined) {
+      if (rate == undefined || rate == null || typeof rate === undefined) {
         rate = await shipment.getRate(address, parcel)
       }
 
@@ -48,7 +49,29 @@ export default class ShippingController {
     }
   }
 
-  public async create({ }: HttpContextContract) { }
+  public async webhooks({ request }: HttpContextContract) {
+    try {
+      // event transaction_created
+      logMe('Webhooks', request.body)
+
+      const order = await Order.query()
+        .where('shippo_order_id', 'request.order')
+        .first()
+
+      if (order) {
+        order.tracking_url = 'request.tracking_url_provider'
+        order.tracking_number = 'request.tracking_number'
+        order.label_url = 'request.label_url'
+
+        await order.save()
+      }
+
+      logMe('shippo order updated', order)
+
+    } catch (error) {
+      logMe('Webhook error', error)
+    }
+  }
 
   public async store({ }: HttpContextContract) { }
 
